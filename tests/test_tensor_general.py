@@ -33,15 +33,12 @@ matmul_tests = [pytest.param("fast", marks=pytest.mark.task3_2)]
 if numba.cuda.is_available():
     # ## Task 3.3
     backend_tests.append(pytest.param("cuda", marks=pytest.mark.task3_3))
-
     # ## Task 3.4
     matmul_tests.append(pytest.param("cuda", marks=pytest.mark.task3_4))
     shared["cuda"] = minitorch.TensorBackend(minitorch.CudaOps)
 
 
 # ## Task 3.1 and 3.3
-
-
 @given(lists(small_floats, min_size=1))
 @pytest.mark.parametrize("backend", backend_tests)
 def test_create(backend: str, t1: List[float]) -> None:
@@ -306,7 +303,7 @@ if numba.cuda.is_available():
 
 
 @given(data())
-@settings(max_examples=25)
+@settings(max_examples=26)
 @pytest.mark.parametrize("fn", two_arg)
 @pytest.mark.parametrize("backend", backend_tests)
 def test_two_grad_broadcast(
