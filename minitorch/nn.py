@@ -76,11 +76,13 @@ def argmax(tensor: Tensor, dim: int) -> Tensor:
     """Applies 2D average pooling to an input signal composed of multiple input planes.
 
     Args:
+    ----
         tensor (Tensor): A tensor of shape [batch, channel, height, width], representing the input data.
         kernel (Tuple[int, int]): A tuple specifying the pooling region size as (kernel_height, kernel_width).
         dim (int): The dimension along which to compute the maximum values.
 
     Returns:
+    -------
         Tensor: A tensor of shape [batch, channel, new_height, new_width], where `new_height` and `new_width`
         are determined by the pooling kernel size.
 
@@ -95,11 +97,13 @@ class Max(Function):
         """Forward pass for the max operation.
 
         Args:
+        ----
             ctx: A context object used to save values required for the backward pass.
             a (Tensor): The input tensor over which to find maximum values.
             dim (int): The dimension along which to compute the maximum values.
 
         Returns:
+        -------
             Tensor: A tensor containing the maximum values along the specified dimension.
 
         """
@@ -111,11 +115,13 @@ class Max(Function):
         """Backward pass for the max operation.
 
         Args:
+        ----
             ctx: A context object containing saved tensors from the forward pass.
             grad_output (Tensor): The gradient of the loss with respect to the output tensor.
 
         Returns:
-            Tuple[Tensor, float]: 
+        -------
+            Tuple[Tensor, float]:
                 - The gradient of the loss with respect to the input tensor.
                 - The gradient of the loss with respect to the dimension (always 0.0).
 
@@ -128,10 +134,12 @@ def max(tensor: Tensor, dim: int) -> Tensor:
     """Returns the maximum values along a specified dimension.
 
     Args:
+    ----
         tensor (Tensor): The input tensor from which to find maximum values.
         dim (int): The dimension along which to compute the maximum values.
 
     Returns:
+    -------
         Tensor: A tensor containing the maximum values along the specified dimension.
 
     """
@@ -142,12 +150,14 @@ def softmax(tensor: Tensor, dim: int) -> Tensor:
     """Applies the softmax function to the input tensor along a specified dimension.
 
     Args:
+    ----
         tensor (Tensor): The input tensor on which to apply the softmax function.
         dim (int): The dimension along which to compute the softmax.
 
     Returns:
+    -------
         Tensor: A tensor with the softmax function applied along the specified dimension.
-        
+
     """
     return tensor.exp() / tensor.exp().sum(dim)
 
@@ -156,10 +166,12 @@ def logsoftmax(tensor: Tensor, dim: int) -> Tensor:
     """Applies the log softmax function to the input tensor along a specified dimension.
 
     Args:
+    ----
         tensor (Tensor): The input tensor on which to apply the log softmax function.
         dim (int): The dimension along which to compute the log softmax.
 
     Returns:
+    -------
         Tensor: A tensor with the log softmax function applied along the specified dimension.
 
     """
@@ -170,10 +182,12 @@ def maxpool2d(tensor: Tensor, kernel: Tuple[int, int]) -> Tensor:
     """Applies 2D max pooling to the input tensor.
 
     Args:
+    ----
         tensor (Tensor): A tensor of shape [batch, channel, height, width], representing the input data.
         kernel (Tuple[int, int]): A tuple specifying the pooling window size as (kernel_height, kernel_width).
 
     Returns:
+    -------
         Tensor: A tensor with max pooling applied, of shape [batch, channel, height // kernel_height, width // kernel_width].
 
     """
@@ -189,20 +203,22 @@ def dropout(tensor: Tensor, p: float, ignore: bool = False) -> Tensor:
     This operation randomly zeroes out some elements of the input tensor with a probability `p`, using samples from a Bernoulli distribution. Each channel is zeroed out independently during every forward call.
 
     Args:
+    ----
         tensor (Tensor): The input tensor to which dropout is applied.
         p (float): The probability of an element being zeroed out. Must be between 0 and 1.
         ignore (bool): If True, ignores dropout and returns the input tensor unchanged.
 
     Returns:
+    -------
         Tensor: The input tensor with dropout applied.
-        
+
     """
     if ignore or p == 0.0:
         return tensor
-    
+
     if p == 1.0:
         # drop out everything
         return tensor.zeros()
-    
+
     mask = rand(tensor.shape) > p
     return tensor * mask
